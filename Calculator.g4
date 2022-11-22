@@ -7,8 +7,14 @@ multdivexpr:
 	powexpr ((TIMES | DIV) powexpr)* #multdivexpression
 	;
 powexpr:
-	INT ((POW | SQRT) INT)* # powerexpression
-	;		
+	logexpr ((POW | SQRT) logexpr)* # powerexpression
+	;
+logexpr:
+    LOG? intexpr* #logexpression
+    ;
+intexpr:
+    (MINUS INT| INT) # intexpression
+    ;
 	
 INT: [0-9]+ ;
 DOT: '.';
@@ -18,6 +24,7 @@ PLUS: '+' ;
 MINUS: '-' ;
 POW: 'pow';
 SQRT: 'sqrt';
+LOG: 'log';
 LGROUP: '(';
 RGROUP: ')';
 WS : [ \t\r\n]+ -> skip ;

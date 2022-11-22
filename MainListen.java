@@ -6,52 +6,78 @@ import java.lang.Math;
 
 public class MainListen extends CalculatorBaseListener {
 
-    private final Stack<Integer> stack = new Stack<>();
+    private final Stack<Double> stack = new Stack<>();
 
-    public Integer getResult() {
+    public Double getResult() {
         return stack.peek();
     }
 
-    @Override public void exitExpression(CalculatorParser.ExpressionContext ctx) {
-        if (ctx.multdivexpr().size() != 1){
-            int right = stack.pop();
-            int left = stack.pop();
-            if (ctx.PLUS().size() != 0) {
-                stack.push(left + right);
+@Override
+public void exitExpression(CalculatorParser.ExpressionContext ctx) {
+    if(ctx.multdivexpr().size()!=1){
+        double right = stack.pop();
+        for(int i = ctx.getChildCount()-2; i >= 1; i = i - 2) {
+            double left = stack.pop();
+            if (symbolEquals(ctx.getChild(i), CalculatorParser.PLUS)) {
+                right = left + right;
             } else {
-                stack.push(left - right);
+                right = left - right;
             }
         }
+        stack.push(right);
     }
-@Override public void exitMultdivexpression(CalculatorParser.MultdivexpressionContext ctx) {
-    if (ctx.powexpr().size() != 1) {
-        int right = stack.pop();
-        int left = stack.pop();
-        if (ctx.TIMES().size() != 0) {
-            stack.push(left * right);
-        } else {
-            stack.push(left / right);
-        }
-    }
+
 }
-@Override public void exitPowerexpression(CalculatorParser.PowerexpressionContext ctx) {
-//System.out.println(ctx.INT());
-        if (ctx.INT().size() == 1){
-            stack.push(Integer.valueOf(ctx.INT(0).getText()));
-        }else{
-            double a = Double.valueOf(ctx.INT(0).getText());
-            double b = Double.valueOf(ctx.INT(1).getText());
-            if(ctx.POW().size() != 0){
-                stack.push((int)Math.pow(a,b));
-            }else{
-                stack.push((int)Math.pow(a,1.0/b));
+@Override
+public void exitMultdivexpression(CalculatorParser.MultdivexpressionContext ctx) {
+    if(ctx.powexpr().size()!=1){
+        double right = stack.pop();
+        for(int i = ctx.getChildCount()-2; i >= 1; i = i - 2) {
+            double left = stack.pop();
+            if (symbolEquals(ctx.getChild(i), CalculatorParser.TIMES)) {
+                right = left * right;
+            } else {
+                right = left / right;
             }
         }
-
+        stack.push(right);
     }
 
-    public static void main(String[] args) throws Exception {
-        CharStream charStreams = CharStreams.fromFileName("example.txt");
+}
+@Override
+public void exitPowerexpression(CalculatorParser.PowerexpressionContext ctx) {
+    if(ctx.logexpr().size()!=1){
+        double right = Double.valueOf(stack.pop());
+        for(int i = ctx.getChildCount()-2; i >= 1; i = i - 2){
+            double left = Double.valueOf(stack.pop());
+            if (symbolEquals(ctx.getChild(i), CalculatorParser.POW)){
+                right = Math.pow(left,right);
+            }else{
+                right = Math.pow(left,1.0/right);
+            }
+        }
+        stack.push(right);
+    }
+
+
+}
+    private boolean symbolEquals(ParseTree child, int symbol) {
+        return ((TerminalNode) child).getSymbol().getType() == symbol;
+    }
+@Override public void exitLogexpression(CalculatorParser.LogexpressionContext ctx) {
+        if(ctx.LOG() != null){
+            stack.push(Math.log(stack.pop()));
+        }
+}
+@Override public void exitIntexpression(CalculatorParser.IntexpressionContext ctx) {
+     if(ctx.MINUS() != null){
+         stack.push(-1 * Double.valueOf(ctx.INT().getText()));
+     }else{
+         stack.push(Double.valueOf(ctx.INT().getText()));
+     }
+}
+public static void main(String[] args) throws Exception {
+        CharStream charStreams = CharStreams.fromFileName("C:\\Users\\Mazii\\IdeaProjects\\antrl\\src\\example.txt");
         CalculatorLexer lexer = new CalculatorLexer(charStreams);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         //System.out.println(tokens.getText());

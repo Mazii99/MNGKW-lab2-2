@@ -42,4 +42,28 @@ public interface CalculatorListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPowerexpression(CalculatorParser.PowerexpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logexpression}
+	 * labeled alternative in {@link CalculatorParser#logexpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogexpression(CalculatorParser.LogexpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logexpression}
+	 * labeled alternative in {@link CalculatorParser#logexpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogexpression(CalculatorParser.LogexpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code intexpression}
+	 * labeled alternative in {@link CalculatorParser#intexpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntexpression(CalculatorParser.IntexpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code intexpression}
+	 * labeled alternative in {@link CalculatorParser#intexpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntexpression(CalculatorParser.IntexpressionContext ctx);
 }
