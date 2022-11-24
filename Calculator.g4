@@ -10,13 +10,12 @@ powexpr:
 	logexpr ((POW | SQRT) logexpr)* # powerexpression
 	;
 logexpr:
-    LOG? intexpr* #logexpression
+    LOG? numexpr* #logexpression
     ;
-intexpr:
-    (MINUS INT| INT) # intexpression
+numexpr:
+    (MINUS NUMBER| NUMBER) # numexpression
     ;
-	
-INT: [0-9]+ ;
+NUMBER:('0' .. '9') + ('.' ('0' .. '9') +)? ;
 DOT: '.';
 TIMES: '*' ;
 DIV: '/' ;

@@ -16,14 +16,14 @@ public class CalculatorParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		INT=1, DOT=2, TIMES=3, DIV=4, PLUS=5, MINUS=6, POW=7, SQRT=8, LOG=9, LGROUP=10, 
-		RGROUP=11, WS=12;
+		NUMBER=1, DOT=2, TIMES=3, DIV=4, PLUS=5, MINUS=6, POW=7, SQRT=8, LOG=9, 
+		LGROUP=10, RGROUP=11, WS=12;
 	public static final int
 		RULE_expr = 0, RULE_multdivexpr = 1, RULE_powexpr = 2, RULE_logexpr = 3, 
-		RULE_intexpr = 4;
+		RULE_numexpr = 4;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"expr", "multdivexpr", "powexpr", "logexpr", "intexpr"
+			"expr", "multdivexpr", "powexpr", "logexpr", "numexpr"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -37,8 +37,8 @@ public class CalculatorParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "INT", "DOT", "TIMES", "DIV", "PLUS", "MINUS", "POW", "SQRT", "LOG", 
-			"LGROUP", "RGROUP", "WS"
+			null, "NUMBER", "DOT", "TIMES", "DIV", "PLUS", "MINUS", "POW", "SQRT", 
+			"LOG", "LGROUP", "RGROUP", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -365,11 +365,11 @@ public class CalculatorParser extends Parser {
 	@SuppressWarnings("CheckReturnValue")
 	public static class LogexpressionContext extends LogexprContext {
 		public TerminalNode LOG() { return getToken(CalculatorParser.LOG, 0); }
-		public List<IntexprContext> intexpr() {
-			return getRuleContexts(IntexprContext.class);
+		public List<NumexprContext> numexpr() {
+			return getRuleContexts(NumexprContext.class);
 		}
-		public IntexprContext intexpr(int i) {
-			return getRuleContext(IntexprContext.class,i);
+		public NumexprContext numexpr(int i) {
+			return getRuleContext(NumexprContext.class,i);
 		}
 		public LogexpressionContext(LogexprContext ctx) { copyFrom(ctx); }
 		@Override
@@ -409,7 +409,7 @@ public class CalculatorParser extends Parser {
 					{
 					{
 					setState(37);
-					intexpr();
+					numexpr();
 					}
 					} 
 				}
@@ -431,37 +431,37 @@ public class CalculatorParser extends Parser {
 	}
 
 	@SuppressWarnings("CheckReturnValue")
-	public static class IntexprContext extends ParserRuleContext {
-		public IntexprContext(ParserRuleContext parent, int invokingState) {
+	public static class NumexprContext extends ParserRuleContext {
+		public NumexprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_intexpr; }
+		@Override public int getRuleIndex() { return RULE_numexpr; }
 	 
-		public IntexprContext() { }
-		public void copyFrom(IntexprContext ctx) {
+		public NumexprContext() { }
+		public void copyFrom(NumexprContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class IntexpressionContext extends IntexprContext {
+	public static class NumexpressionContext extends NumexprContext {
 		public TerminalNode MINUS() { return getToken(CalculatorParser.MINUS, 0); }
-		public TerminalNode INT() { return getToken(CalculatorParser.INT, 0); }
-		public IntexpressionContext(IntexprContext ctx) { copyFrom(ctx); }
+		public TerminalNode NUMBER() { return getToken(CalculatorParser.NUMBER, 0); }
+		public NumexpressionContext(NumexprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof CalculatorListener ) ((CalculatorListener)listener).enterIntexpression(this);
+			if ( listener instanceof CalculatorListener ) ((CalculatorListener)listener).enterNumexpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof CalculatorListener ) ((CalculatorListener)listener).exitIntexpression(this);
+			if ( listener instanceof CalculatorListener ) ((CalculatorListener)listener).exitNumexpression(this);
 		}
 	}
 
-	public final IntexprContext intexpr() throws RecognitionException {
-		IntexprContext _localctx = new IntexprContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_intexpr);
+	public final NumexprContext numexpr() throws RecognitionException {
+		NumexprContext _localctx = new NumexprContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_numexpr);
 		try {
-			_localctx = new IntexpressionContext(_localctx);
+			_localctx = new NumexpressionContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(46);
@@ -472,13 +472,13 @@ public class CalculatorParser extends Parser {
 				setState(43);
 				match(MINUS);
 				setState(44);
-				match(INT);
+				match(NUMBER);
 				}
 				break;
-			case INT:
+			case NUMBER:
 				{
 				setState(45);
-				match(INT);
+				match(NUMBER);
 				}
 				break;
 			default:

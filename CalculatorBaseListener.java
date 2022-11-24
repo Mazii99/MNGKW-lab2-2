@@ -64,13 +64,13 @@ public class CalculatorBaseListener implements CalculatorListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntexpression(CalculatorParser.IntexpressionContext ctx) { }
+	@Override public void enterNumexpression(CalculatorParser.NumexpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntexpression(CalculatorParser.IntexpressionContext ctx) { }
+	@Override public void exitNumexpression(CalculatorParser.NumexpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

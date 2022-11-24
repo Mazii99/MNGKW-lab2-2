@@ -69,11 +69,11 @@ public void exitPowerexpression(CalculatorParser.PowerexpressionContext ctx) {
             stack.push(Math.log(stack.pop()));
         }
 }
-@Override public void exitIntexpression(CalculatorParser.IntexpressionContext ctx) {
+@Override public void exitNumexpression(CalculatorParser.NumexpressionContext ctx) {
      if(ctx.MINUS() != null){
-         stack.push(-1 * Double.valueOf(ctx.INT().getText()));
+         stack.push(-1 * Double.valueOf(ctx.NUMBER().getText()));
      }else{
-         stack.push(Double.valueOf(ctx.INT().getText()));
+         stack.push(Double.valueOf(ctx.NUMBER().getText()));
      }
 }
 public static void main(String[] args) throws Exception {
