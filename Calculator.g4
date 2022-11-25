@@ -15,7 +15,7 @@ logexpr:
 numexpr:
     (MINUS NUMBER| NUMBER) # numexpression
     ;
-NUMBER:('0' .. '9') + ('.' ('0' .. '9') +)? ;
+NUMBER:('0' .. '9')+ ('.' ('0' .. '9') +)? ;
 DOT: '.';
 TIMES: '*' ;
 DIV: '/' ;

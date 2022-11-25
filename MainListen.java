@@ -14,7 +14,6 @@ public class MainListen extends CalculatorBaseListener {
 
 @Override
 public void exitExpression(CalculatorParser.ExpressionContext ctx) {
-    if(ctx.multdivexpr().size()!=1){
         double right = stack.pop();
         for(int i = ctx.getChildCount()-2; i >= 1; i = i - 2) {
             double left = stack.pop();
@@ -25,12 +24,9 @@ public void exitExpression(CalculatorParser.ExpressionContext ctx) {
             }
         }
         stack.push(right);
-    }
-
 }
 @Override
 public void exitMultdivexpression(CalculatorParser.MultdivexpressionContext ctx) {
-    if(ctx.powexpr().size()!=1){
         double right = stack.pop();
         for(int i = ctx.getChildCount()-2; i >= 1; i = i - 2) {
             double left = stack.pop();
@@ -41,25 +37,20 @@ public void exitMultdivexpression(CalculatorParser.MultdivexpressionContext ctx)
             }
         }
         stack.push(right);
-    }
 
 }
 @Override
 public void exitPowerexpression(CalculatorParser.PowerexpressionContext ctx) {
-    if(ctx.logexpr().size()!=1){
         double right = Double.valueOf(stack.pop());
         for(int i = ctx.getChildCount()-2; i >= 1; i = i - 2){
             double left = Double.valueOf(stack.pop());
             if (symbolEquals(ctx.getChild(i), CalculatorParser.POW)){
                 right = Math.pow(left,right);
-            }else{
+            }else if(symbolEquals(ctx.getChild(i), CalculatorParser.SQRT)){
                 right = Math.pow(left,1.0/right);
             }
         }
         stack.push(right);
-    }
-
-
 }
     private boolean symbolEquals(ParseTree child, int symbol) {
         return ((TerminalNode) child).getSymbol().getType() == symbol;
@@ -70,11 +61,16 @@ public void exitPowerexpression(CalculatorParser.PowerexpressionContext ctx) {
         }
 }
 @Override public void exitNumexpression(CalculatorParser.NumexpressionContext ctx) {
-     if(ctx.MINUS() != null){
-         stack.push(-1 * Double.valueOf(ctx.NUMBER().getText()));
-     }else{
-         stack.push(Double.valueOf(ctx.NUMBER().getText()));
-     }
+    double value = Double.valueOf(ctx.NUMBER().getText());
+    if (ctx.NUMBER() != null) {
+        if(ctx.MINUS() != null){
+            stack.push(-1 * value);
+        }
+        else
+        {
+            stack.push( value) ;
+        }
+    }
 }
 public static void main(String[] args) throws Exception {
         CharStream charStreams = CharStreams.fromFileName("C:\\Users\\Mazii\\IdeaProjects\\antrl\\src\\example.txt");
