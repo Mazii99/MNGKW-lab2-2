@@ -13,7 +13,7 @@ logexpr:
     LOG? numexpr* #logexpression
     ;
 numexpr:
-    (MINUS NUMBER| NUMBER) # numexpression
+    (MINUS NUMBER | NUMBER) # numexpression
     ;
 NUMBER:('0' .. '9')+ ('.' ('0' .. '9') +)? ;
 DOT: '.';
