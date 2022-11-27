@@ -444,8 +444,8 @@ public class CalculatorParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class NumexpressionContext extends NumexprContext {
-		public TerminalNode MINUS() { return getToken(CalculatorParser.MINUS, 0); }
 		public TerminalNode NUMBER() { return getToken(CalculatorParser.NUMBER, 0); }
+		public TerminalNode MINUS() { return getToken(CalculatorParser.MINUS, 0); }
 		public NumexpressionContext(NumexprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -469,10 +469,12 @@ public class CalculatorParser extends Parser {
 			switch (_input.LA(1)) {
 			case MINUS:
 				{
+				{
 				setState(43);
 				match(MINUS);
 				setState(44);
 				match(NUMBER);
+				}
 				}
 				break;
 			case NUMBER:

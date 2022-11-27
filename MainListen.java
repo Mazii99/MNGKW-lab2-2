@@ -1,4 +1,7 @@
+import java.util.LinkedList;
 import java.util.Stack;
+
+import com.sun.tools.javac.Main;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.lang.Math;
@@ -6,86 +9,99 @@ import java.lang.Math;
 
 public class MainListen extends CalculatorBaseListener {
 
-    private final Stack<Double> stack = new Stack<>();
+    private final LinkedList<Double> firstStack = new LinkedList<>();
+    private final LinkedList<Double> secondStack = new LinkedList<>();
+    private final LinkedList<Double> thirdStack = new LinkedList<>();
+    private final LinkedList<Double> fourthStack = new LinkedList<>();
 
     public Double getResult() {
-        return stack.peek();
+
+        return fourthStack.pop();
     }
 
 @Override
 public void exitExpression(CalculatorParser.ExpressionContext ctx) {
-        double right = stack.pop();
-        for(int i = ctx.getChildCount()-2; i >= 1; i = i - 2) {
-            double left = stack.pop();
+        double left = fourthStack.removeLast();
+        for (int i = 1; i < ctx.getChildCount(); i = i + 2) {
             if (symbolEquals(ctx.getChild(i), CalculatorParser.PLUS)) {
-                right = left + right;
+                left = left + fourthStack.removeLast();
             } else {
-                right = left - right;
+                left = left - fourthStack.removeLast();
             }
         }
-        stack.push(right);
+        fourthStack.push(left);
 }
 @Override
 public void exitMultdivexpression(CalculatorParser.MultdivexpressionContext ctx) {
-        double right = stack.pop();
-        for(int i = ctx.getChildCount()-2; i >= 1; i = i - 2) {
-            double left = stack.pop();
+        double left = thirdStack.removeLast();
+        for (int i = 1; i < ctx.getChildCount(); i = i + 2) {
             if (symbolEquals(ctx.getChild(i), CalculatorParser.TIMES)) {
-                right = left * right;
+                left = left * thirdStack.removeLast();
             } else {
-                right = left / right;
+                left = left / thirdStack.removeLast();
             }
         }
-        stack.push(right);
+        fourthStack.push(left);
 
 }
 @Override
 public void exitPowerexpression(CalculatorParser.PowerexpressionContext ctx) {
-        double right = Double.valueOf(stack.pop());
-        for(int i = ctx.getChildCount()-2; i >= 1; i = i - 2){
-            double left = Double.valueOf(stack.pop());
+        double left = Double.valueOf(secondStack.removeLast());
+        for (int i = 1; i < ctx.getChildCount(); i = i + 2) {
             if (symbolEquals(ctx.getChild(i), CalculatorParser.POW)){
-                right = Math.pow(left,right);
+                left = Math.pow(left,secondStack.removeLast());
             }else if(symbolEquals(ctx.getChild(i), CalculatorParser.SQRT)){
-                right = Math.pow(left,1.0/right);
+                left = Math.pow(left,1.0/secondStack.removeLast());
             }
         }
-        stack.push(right);
+        thirdStack.push(left);
 }
     private boolean symbolEquals(ParseTree child, int symbol) {
         return ((TerminalNode) child).getSymbol().getType() == symbol;
     }
 @Override public void exitLogexpression(CalculatorParser.LogexpressionContext ctx) {
         if(ctx.LOG() != null){
-            stack.push(Math.log(stack.pop()));
+            secondStack.push(Math.log(firstStack.removeLast()));
+        }else{
+            secondStack.push(firstStack.removeLast());
         }
 }
 @Override public void exitNumexpression(CalculatorParser.NumexpressionContext ctx) {
     double value = Double.valueOf(ctx.NUMBER().getText());
     if (ctx.NUMBER() != null) {
         if(ctx.MINUS() != null){
-            stack.push(-1 * value);
+            firstStack.push(-1 * value);
         }
         else
         {
-            stack.push( value) ;
+            firstStack.push(value) ;
         }
     }
 }
-public static void main(String[] args) throws Exception {
-        CharStream charStreams = CharStreams.fromFileName("C:\\Users\\Mazii\\IdeaProjects\\antrl\\src\\example.txt");
-        CalculatorLexer lexer = new CalculatorLexer(charStreams);
+    public static Double calc(CharStream charStream) {
+        CalculatorLexer lexer = new CalculatorLexer(charStream);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        //System.out.println(tokens.getText());
+        System.out.println(tokens.getText());
 
         CalculatorParser parser = new CalculatorParser(tokens);
-        ParseTree tree = parser.expr(); // parse
+        ParseTree tree = parser.expr();
 
         ParseTreeWalker walker = new ParseTreeWalker();
-        MainListen listener = new MainListen();
-        walker.walk(listener, tree);
-        System.out.println(listener.getResult());
+        MainListen calculatorListener = new MainListen();
+        walker.walk(calculatorListener, tree);
+        return calculatorListener.getResult();
     }
+
+    public static Double calc(String expression) {
+        return calc(CharStreams.fromString(expression));
+    }
+
+    public static void main(String[] args) throws Exception {
+        CharStream charStreams = CharStreams.fromFileName("C:\\Users\\Mazii\\IdeaProjects\\antrl\\src\\example.txt");
+        Double result = calc(charStreams);
+        System.out.println("Result = " + result);
+    }
+
 
 
 }
