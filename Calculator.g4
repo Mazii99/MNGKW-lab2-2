@@ -10,7 +10,7 @@ powexpr:
 	logexpr ((POW | SQRT) logexpr)* # powerexpression
 	;
 logexpr:
-    LOG? numexpr* #logexpression
+    LOG? numexpr #logexpression
     ;
 numexpr:
     ((MINUS NUMBER) | NUMBER) # numexpression

@@ -364,13 +364,10 @@ public class CalculatorParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class LogexpressionContext extends LogexprContext {
+		public NumexprContext numexpr() {
+			return getRuleContext(NumexprContext.class,0);
+		}
 		public TerminalNode LOG() { return getToken(CalculatorParser.LOG, 0); }
-		public List<NumexprContext> numexpr() {
-			return getRuleContexts(NumexprContext.class);
-		}
-		public NumexprContext numexpr(int i) {
-			return getRuleContext(NumexprContext.class,i);
-		}
 		public LogexpressionContext(LogexprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -387,7 +384,6 @@ public class CalculatorParser extends Parser {
 		enterRule(_localctx, 6, RULE_logexpr);
 		int _la;
 		try {
-			int _alt;
 			_localctx = new LogexpressionContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
@@ -401,22 +397,8 @@ public class CalculatorParser extends Parser {
 				}
 			}
 
-			setState(40);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(37);
-					numexpr();
-					}
-					} 
-				}
-				setState(42);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
-			}
+			setState(37);
+			numexpr();
 			}
 		}
 		catch (RecognitionException re) {
@@ -464,22 +446,22 @@ public class CalculatorParser extends Parser {
 			_localctx = new NumexpressionContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
+			setState(42);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case MINUS:
 				{
 				{
-				setState(43);
+				setState(39);
 				match(MINUS);
-				setState(44);
+				setState(40);
 				match(NUMBER);
 				}
 				}
 				break;
 			case NUMBER:
 				{
-				setState(45);
+				setState(41);
 				match(NUMBER);
 				}
 				break;
@@ -500,38 +482,36 @@ public class CalculatorParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\f1\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\f-\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0001"+
 		"\u0000\u0001\u0000\u0001\u0000\u0005\u0000\u000e\b\u0000\n\u0000\f\u0000"+
 		"\u0011\t\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0005\u0001\u0016\b"+
 		"\u0001\n\u0001\f\u0001\u0019\t\u0001\u0001\u0002\u0001\u0002\u0001\u0002"+
 		"\u0005\u0002\u001e\b\u0002\n\u0002\f\u0002!\t\u0002\u0001\u0003\u0003"+
-		"\u0003$\b\u0003\u0001\u0003\u0005\u0003\'\b\u0003\n\u0003\f\u0003*\t\u0003"+
-		"\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004/\b\u0004\u0001\u0004"+
-		"\u0000\u0000\u0005\u0000\u0002\u0004\u0006\b\u0000\u0003\u0001\u0000\u0005"+
-		"\u0006\u0001\u0000\u0003\u0004\u0001\u0000\u0007\b1\u0000\n\u0001\u0000"+
-		"\u0000\u0000\u0002\u0012\u0001\u0000\u0000\u0000\u0004\u001a\u0001\u0000"+
-		"\u0000\u0000\u0006#\u0001\u0000\u0000\u0000\b.\u0001\u0000\u0000\u0000"+
-		"\n\u000f\u0003\u0002\u0001\u0000\u000b\f\u0007\u0000\u0000\u0000\f\u000e"+
-		"\u0003\u0002\u0001\u0000\r\u000b\u0001\u0000\u0000\u0000\u000e\u0011\u0001"+
-		"\u0000\u0000\u0000\u000f\r\u0001\u0000\u0000\u0000\u000f\u0010\u0001\u0000"+
-		"\u0000\u0000\u0010\u0001\u0001\u0000\u0000\u0000\u0011\u000f\u0001\u0000"+
-		"\u0000\u0000\u0012\u0017\u0003\u0004\u0002\u0000\u0013\u0014\u0007\u0001"+
-		"\u0000\u0000\u0014\u0016\u0003\u0004\u0002\u0000\u0015\u0013\u0001\u0000"+
-		"\u0000\u0000\u0016\u0019\u0001\u0000\u0000\u0000\u0017\u0015\u0001\u0000"+
-		"\u0000\u0000\u0017\u0018\u0001\u0000\u0000\u0000\u0018\u0003\u0001\u0000"+
-		"\u0000\u0000\u0019\u0017\u0001\u0000\u0000\u0000\u001a\u001f\u0003\u0006"+
-		"\u0003\u0000\u001b\u001c\u0007\u0002\u0000\u0000\u001c\u001e\u0003\u0006"+
-		"\u0003\u0000\u001d\u001b\u0001\u0000\u0000\u0000\u001e!\u0001\u0000\u0000"+
-		"\u0000\u001f\u001d\u0001\u0000\u0000\u0000\u001f \u0001\u0000\u0000\u0000"+
-		" \u0005\u0001\u0000\u0000\u0000!\u001f\u0001\u0000\u0000\u0000\"$\u0005"+
-		"\t\u0000\u0000#\"\u0001\u0000\u0000\u0000#$\u0001\u0000\u0000\u0000$("+
-		"\u0001\u0000\u0000\u0000%\'\u0003\b\u0004\u0000&%\u0001\u0000\u0000\u0000"+
-		"\'*\u0001\u0000\u0000\u0000(&\u0001\u0000\u0000\u0000()\u0001\u0000\u0000"+
-		"\u0000)\u0007\u0001\u0000\u0000\u0000*(\u0001\u0000\u0000\u0000+,\u0005"+
-		"\u0006\u0000\u0000,/\u0005\u0001\u0000\u0000-/\u0005\u0001\u0000\u0000"+
-		".+\u0001\u0000\u0000\u0000.-\u0001\u0000\u0000\u0000/\t\u0001\u0000\u0000"+
-		"\u0000\u0006\u000f\u0017\u001f#(.";
+		"\u0003$\b\u0003\u0001\u0003\u0001\u0003\u0001\u0004\u0001\u0004\u0001"+
+		"\u0004\u0003\u0004+\b\u0004\u0001\u0004\u0000\u0000\u0005\u0000\u0002"+
+		"\u0004\u0006\b\u0000\u0003\u0001\u0000\u0005\u0006\u0001\u0000\u0003\u0004"+
+		"\u0001\u0000\u0007\b,\u0000\n\u0001\u0000\u0000\u0000\u0002\u0012\u0001"+
+		"\u0000\u0000\u0000\u0004\u001a\u0001\u0000\u0000\u0000\u0006#\u0001\u0000"+
+		"\u0000\u0000\b*\u0001\u0000\u0000\u0000\n\u000f\u0003\u0002\u0001\u0000"+
+		"\u000b\f\u0007\u0000\u0000\u0000\f\u000e\u0003\u0002\u0001\u0000\r\u000b"+
+		"\u0001\u0000\u0000\u0000\u000e\u0011\u0001\u0000\u0000\u0000\u000f\r\u0001"+
+		"\u0000\u0000\u0000\u000f\u0010\u0001\u0000\u0000\u0000\u0010\u0001\u0001"+
+		"\u0000\u0000\u0000\u0011\u000f\u0001\u0000\u0000\u0000\u0012\u0017\u0003"+
+		"\u0004\u0002\u0000\u0013\u0014\u0007\u0001\u0000\u0000\u0014\u0016\u0003"+
+		"\u0004\u0002\u0000\u0015\u0013\u0001\u0000\u0000\u0000\u0016\u0019\u0001"+
+		"\u0000\u0000\u0000\u0017\u0015\u0001\u0000\u0000\u0000\u0017\u0018\u0001"+
+		"\u0000\u0000\u0000\u0018\u0003\u0001\u0000\u0000\u0000\u0019\u0017\u0001"+
+		"\u0000\u0000\u0000\u001a\u001f\u0003\u0006\u0003\u0000\u001b\u001c\u0007"+
+		"\u0002\u0000\u0000\u001c\u001e\u0003\u0006\u0003\u0000\u001d\u001b\u0001"+
+		"\u0000\u0000\u0000\u001e!\u0001\u0000\u0000\u0000\u001f\u001d\u0001\u0000"+
+		"\u0000\u0000\u001f \u0001\u0000\u0000\u0000 \u0005\u0001\u0000\u0000\u0000"+
+		"!\u001f\u0001\u0000\u0000\u0000\"$\u0005\t\u0000\u0000#\"\u0001\u0000"+
+		"\u0000\u0000#$\u0001\u0000\u0000\u0000$%\u0001\u0000\u0000\u0000%&\u0003"+
+		"\b\u0004\u0000&\u0007\u0001\u0000\u0000\u0000\'(\u0005\u0006\u0000\u0000"+
+		"(+\u0005\u0001\u0000\u0000)+\u0005\u0001\u0000\u0000*\'\u0001\u0000\u0000"+
+		"\u0000*)\u0001\u0000\u0000\u0000+\t\u0001\u0000\u0000\u0000\u0005\u000f"+
+		"\u0017\u001f#*";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
